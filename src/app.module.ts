@@ -7,6 +7,7 @@ import { ClientModule } from './client/client.module';
 import { VehicleModule } from './vehicle/vehicle.module';
 import { ServiceModule } from './service/service.module';
 import { UserModule } from './user/user.module';
+import { ReservateModule } from './reservate/reservate.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { UserModule } from './user/user.module';
     VehicleModule,
     ServiceModule,
     UserModule,
+    ReservateModule,
   ],
   controllers: [AppController],
   providers: [AppService],
