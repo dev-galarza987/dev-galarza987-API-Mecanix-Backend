@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Reservate } from 'src/reservate/entities/reservate.entity';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity({ name: 'client' })
 export class Client {
@@ -16,4 +17,7 @@ export class Client {
 
   @Column({ type: 'int', name: 'phone', nullable: false, unique: true })
   phone: number;
+
+  @OneToMany(() => Reservate, (reservate) => reservate.client)
+  reservations: Reservate[];
 }

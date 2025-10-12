@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { ReservateService } from './reservate.service';
 import { CreateReservateDto } from './dto/create-reservate.dto';
@@ -26,20 +27,20 @@ export class ReservateController {
   }
 
   @Get(':code')
-  findOne(@Param('code') code: number) {
+  findOne(@Param('code', ParseIntPipe) code: number) {
     return this.reservateService.findOne(code);
   }
 
   @Patch(':code/update')
   update(
-    @Param('code') code: number,
+    @Param('code', ParseIntPipe) code: number,
     @Body() updateReservate: UpdateReservateDto,
   ) {
     return this.reservateService.update(code, updateReservate);
   }
 
   @Delete(':code/delete')
-  remove(@Param('code') code: number) {
+  remove(@Param('code', ParseIntPipe) code: number) {
     return this.reservateService.remove(code);
   }
 }

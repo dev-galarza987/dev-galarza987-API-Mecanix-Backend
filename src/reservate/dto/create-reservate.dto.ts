@@ -1,17 +1,16 @@
-import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { IsArray, IsDateString, IsNotEmpty, IsNumber, IsOptional } from 'class-validator';
 
 export class CreateReservateDto {
-  @IsNotEmpty({ message: 'El campo código es requerido' })
-  @IsNumber()
-  code!: number;
+  @IsNotEmpty({ message: 'El código del cliente es requerido' })
+  @IsNumber({}, { message: 'El código del cliente debe ser un número' })
+  clientCode: number;
 
-  @IsNotEmpty({ message: 'El campo título es requerido' })
-  @IsString({ message: 'El campo título debe ser una cadena de caracteres' })
-  title!: string;
+  @IsArray({ message: 'La lista de códigos de servicio debe ser un arreglo' })
+  @IsNumber({}, { each: true, message: 'Cada código de servicio debe ser un número' })
+  @IsNotEmpty({ message: 'La lista de códigos de servicio es requerida' })
+  serviceCodes: number[];
 
-  @IsNotEmpty({ message: 'El campo descripción es requerido' })
-  @IsString({
-    message: 'El campo descripción debe ser una cadena de caracteres',
-  })
-  description!: string;
+  @IsOptional()
+  @IsDateString({}, { message: 'La fecha de la reserva debe estar en formato ISO 8601' })
+  reservationDate: Date;
 }

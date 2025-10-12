@@ -1,5 +1,14 @@
+import { Client } from 'src/client/entities/client.entity';
+import { Service } from 'src/service/entities/service.entity';
 import { StateReservate } from 'src/types/StateReservate';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity({ name: 'reservate' })
 export class Reservate {
@@ -8,35 +17,51 @@ export class Reservate {
 
   @Column({
     name: 'code_reservate',
-    type: 'int',
+    type: 'bigint',
     unique: true,
     nullable: false,
   })
   code: number;
 
   @Column({
-    name: 'title',
-    type: 'varchar',
-    length: 255,
+    name: 'reservation_date',
+    type: 'timestamp',
     nullable: false,
+    default: () => 'CURRENT_TIMESTAMP',
   })
-  title: string;
+  reservationDate: Date;
 
   @Column({
-    name: 'description',
-    type: 'varchar',
-    length: 255,
+    name: 'total_price',
+    type: 'int',
     nullable: false,
   })
-  description: string;
+  totalPrice: number;
 
   @Column({
     type: 'enum',
     enum: StateReservate,
-    default: StateReservate.CANCELLED,
+    default: StateReservate.PENDING,
     nullable: false,
   })
   state: StateReservate;
+
+  @ManyToOne(() => Client, (client) => client.reservations)
+  client: Client;
+
+  @ManyToMany(() => Service)
+  @JoinTable({
+    name: 'reservate_service',
+    joinColumn: {
+      name: 'reservate_id',
+      referencedColumnName: 'id',
+    },
+    inverseJoinColumn: {
+      name: 'service_id',
+      referencedColumnName: 'id',
+    },
+  })
+  services: Service[];
 
   @Column({
     name: 'created_at',
@@ -46,6 +71,7 @@ export class Reservate {
   createdAt: Date;
 
   @Column({
+    name: 'updated_at',
     type: 'timestamp',
     default: () => 'CURRENT_TIMESTAMP',
     onUpdate: 'CURRENT_TIMESTAMP',
