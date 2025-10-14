@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{title}} - API Mecanix</title>
+    <meta name="description" content="API REST para gestión de talleres mecánicos. Administra clientes, vehículos, servicios y reservas de manera eficiente.">
+    <meta name="keywords" content="API, REST, taller mecánico, gestión, NestJS, backend">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar container">
+            <a href="/" class="logo">
+                <div class="logo-icon">M</div>
+                <span>Mecanix API</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="#inicio">Inicio</a></li>
+                <li><a href="#features">Características</a></li>
+                <li><a href="#stats">Estadísticas</a></li>
+                <li><a href="/api/docs" target="_blank">Documentación</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="inicio" class="hero">
+        <div class="container">
+            <h1>{{title}}</h1>
+            <p>{{description}}</p>
+            <div class="status-badge status-active" id="api-status">
+                <span class="status-indicator"></span>
+                Verificando...
+            </div>
+            <div class="cta-buttons">
+                <a href="/api/docs" class="btn btn-primary" target="_blank">Ver Documentación</a>
+                <a href="#features" class="btn btn-secondary">Conocer Más</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <div class="section-title">
+                <h2>Características Principales</h2>
+                <p>Una API completa y moderna para la gestión integral de talleres mecánicos</p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">👥</div>
+                    <h3>Gestión de Usuarios</h3>
+                    <p>Sistema completo de autenticación y autorización con diferentes roles de usuario. Administra mecánicos, recepcionistas y administradores.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🚗</div>
+                    <h3>Control de Vehículos</h3>
+                    <p>Registro detallado de vehículos con historial de servicios, mantenimientos y reparaciones. Seguimiento completo del estado de cada vehículo.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🔧</div>
+                    <h3>Servicios Técnicos</h3>
+                    <p>Catálogo completo de servicios mecánicos con precios, duración estimada y recursos necesarios. Gestión de inventario y repuestos.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">📅</div>
+                    <h3>Sistema de Reservas</h3>
+                    <p>Programación inteligente de citas con notificaciones automáticas. Control de disponibilidad y optimización de recursos.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">👤</div>
+                    <h3>Gestión de Clientes</h3>
+                    <p>Base de datos completa de clientes con historial de servicios, preferencias y información de contacto actualizada.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>Reportes y Analytics</h3>
+                    <p>Dashboard con métricas en tiempo real, reportes de rendimiento y análisis de tendencias para toma de decisiones estratégicas.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- API Stats -->
+    <section id="stats" class="api-stats">
+        <div class="container">
+            <div class="section-title">
+                <h2 style="color: white;">Estadísticas de la API</h2>
+                <p style="color: rgba(255,255,255,0.8);">Rendimiento y uso en tiempo real</p>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <span class="stat-number" data-count="{{stats.endpoints}}">0</span>
+                    <span class="stat-label">Endpoints Disponibles</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" data-count="{{stats.requests}}">0</span>
+                    <span class="stat-label">Requests Procesados</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" data-count="{{stats.uptime}}">0</span>
+                    <span class="stat-label">% Uptime</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" data-count="{{stats.responseTime}}">0</span>
+                    <span class="stat-label">ms Tiempo Respuesta</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- API Endpoints Info -->
+    <section class="features" style="background: white;">
+        <div class="container">
+            <div class="section-title">
+                <h2>Endpoints Principales</h2>
+                <p>Recursos disponibles en la API REST</p>
+            </div>
+            
+            <div class="features-grid">
+                {{#each endpoints}}
+                <div class="feature-card">
+                    <div class="feature-icon">{{this.icon}}</div>
+                    <h3>{{this.name}}</h3>
+                    <p>{{this.description}}</p>
+                    <div style="margin-top: 1rem;">
+                        <code style="background: #f3f4f6; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.875rem;">
+                            {{this.path}}
+                        </code>
+                    </div>
+                    <button 
+                        onclick="copyToClipboard('{{../baseUrl}}{{this.path}}', this)" 
+                        class="btn btn-primary" 
+                        style="margin-top: 1rem; font-size: 0.875rem; padding: 0.5rem 1rem;"
+                    >
+                        Copiar URL
+                    </button>
+                </div>
+                {{/each}}
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>API Mecanix</h3>
+                    <p style="color: rgba(255,255,255,0.8); margin-top: 1rem;">
+                        Solución integral para la gestión de talleres mecánicos. 
+                        Desarrollado con NestJS y las mejores prácticas de desarrollo.
+                    </p>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Recursos</h3>
+                    <ul>
+                        <li><a href="/api/docs">Documentación API</a></li>
+                        <li><a href="/api/docs-json">Schema OpenAPI</a></li>
+                        <li><a href="#stats">Estadísticas</a></li>
+                        <li><a href="#features">Características</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Endpoints</h3>
+                    <ul>
+                        <li><a href="/api/{{version}}/user">Usuarios</a></li>
+                        <li><a href="/api/{{version}}/client">Clientes</a></li>
+                        <li><a href="/api/{{version}}/vehicle">Vehículos</a></li>
+                        <li><a href="/api/{{version}}/service">Servicios</a></li>
+                        <li><a href="/api/{{version}}/reservate">Reservas</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Información</h3>
+                    <ul>
+                        <li>Versión: {{version}}</li>
+                        <li>Entorno: {{environment}}</li>
+                        <li>Puerto: {{port}}</li>
+                        <li>Estado: <span id="footer-status" class="status-badge status-active">Activa</span></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; {{year}} API Mecanix. Desarrollado con ❤️ usando NestJS</p>
+                <p style="margin-top: 0.5rem; font-size: 0.875rem;">
+                    Documentación completa disponible en 
+                    <a href="/api/docs" style="color: #3b82f6;">Swagger UI</a>
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="/js/main.js"></script>
+</body>
+</html>
