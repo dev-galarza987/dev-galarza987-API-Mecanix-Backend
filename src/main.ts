@@ -32,9 +32,9 @@ async function bootstrap() {
   app.setBaseViewsDir(join(__dirname, '..', 'views'));
   app.setViewEngine('hbs');
 
-  await app.listen(process.env.PORT ?? 8000);
+  await app.listen(process.env.PORT ?? 3000);
   console.log(
-    `Server listening on  http://127.0.0.1:${process.env.PORT ?? 8000}/api/${process.env.API_VERSION}`,
+    `Server listening on  http://127.0.0.1:${process.env.PORT ?? 3000}/api/${process.env.API_VERSION}`,
   );
 }
 void bootstrap();

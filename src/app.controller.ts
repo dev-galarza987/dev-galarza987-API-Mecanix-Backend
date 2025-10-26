@@ -13,9 +13,9 @@ export class AppController {
       description: 'API REST completa para la gestión integral de talleres mecánicos. Administra usuarios, clientes, vehículos, servicios y reservas con una arquitectura moderna y escalable.',
       version: process.env.API_VERSION || 'v1',
       environment: process.env.NODE_ENV || 'development',
-      port: process.env.PORT || 8000,
+      port: process.env.PORT || 3000,
       year: new Date().getFullYear(),
-      baseUrl: `http://localhost:${process.env.PORT || 8000}`,
+      baseUrl: `http://localhost:${process.env.PORT || 3000}`,
       stats: {
         endpoints: 25,
         requests: 1247,
