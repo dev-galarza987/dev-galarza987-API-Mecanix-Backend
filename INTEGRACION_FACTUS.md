@@ -53,9 +53,11 @@ export enum InvoiceStatus {
 
 ## 📡 Endpoint para Factus
 
-### `GET /api/v1/order/:id/factus`
+### `GET /api/v1/order/:code/factus`
 
 Prepara los datos de una orden para enviarlos a Factus.
+
+**Parámetro:** `code` (string) - Código de la orden
 
 **Respuesta:** `OrderToFactusDto`
 ```json
@@ -126,13 +128,13 @@ Content-Type: application/json
 
 ### 2. Obtener datos para Factus
 ```bash
-GET /api/v1/order/1/factus
+GET /api/v1/order/ORD-001/factus
 ```
 
 ### 3. Enviar a Factus (desde tu app)
 ```javascript
 // En tu aplicación cliente o backend
-const orderData = await fetch('http://localhost:4000/api/v1/order/1/factus');
+const orderData = await fetch('http://localhost:4000/api/v1/order/ORD-001/factus');
 const factusResponse = await fetch('https://factus-api.com/invoices', {
   method: 'POST',
   body: JSON.stringify(orderData)
@@ -141,7 +143,7 @@ const factusResponse = await fetch('https://factus-api.com/invoices', {
 
 ### 4. Actualizar orden con datos de factura
 ```bash
-PATCH /api/v1/order/1
+PATCH /api/v1/order/ORD-2025-001
 Content-Type: application/json
 
 {
