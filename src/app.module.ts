@@ -9,6 +9,7 @@ import { ServiceModule } from './service/service.module';
 import { UserModule } from './user/user.module';
 import { ReservateModule } from './reservate/reservate.module';
 import { MechanicModule } from './mechanic/mechanic.module';
+import { ClientVehicleModule } from './client-vehicle/client-vehicle.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { MechanicModule } from './mechanic/mechanic.module';
     UserModule,
     ReservateModule,
     MechanicModule,
+    ClientVehicleModule,
   ],
   controllers: [AppController],
   providers: [AppService],
