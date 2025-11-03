@@ -6,11 +6,11 @@ import { TopClientDto } from './dto/top-client.dto.js';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Client } from './entities/client.entity.js';
 import { Reservate } from '../reservate/entities/reservate.entity.js';
-import { ClientVehicle } from '../client-vehicle/entities/client-vehicle.entity.js';
 import { Repository } from 'typeorm';
 import { ClientGender } from '../types/ClientGender.js';
 import { ContactMethod } from '../types/ContactMethod.js';
 import { StateReservate } from '../types/StateReservate.js';
+import { ClientVehicle } from 'src/client-vehicle/entities/client-vehicle.entity.js';
 
 @Injectable()
 export class ClientService {
