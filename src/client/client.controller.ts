@@ -187,6 +187,44 @@ export class ClientController {
     return this.clientService.getClientStatistics(code);
   }
 
+  // ==================== HISTORIAL ====================
+
+  /*
+    Obtener historial completo de un cliente (reservas y vehículos)
+  */
+  @Get(':code/history')
+  @ApiOperation({ summary: 'Obtener historial completo del cliente (reservas y vehículos)' })
+  @ApiParam({ name: 'code', description: 'Código único del cliente', example: 1001 })
+  @ApiResponse({ status: 200, description: 'Historial del cliente obtenido exitosamente' })
+  @ApiResponse({ status: 404, description: 'Cliente no encontrado' })
+  getClientHistory(@Param('code', ParseIntPipe) code: number) {
+    return this.clientService.getClientHistory(code);
+  }
+
+  /*
+    Obtener todas las reservas de un cliente
+  */
+  @Get(':code/reservations')
+  @ApiOperation({ summary: 'Obtener todas las reservas del cliente' })
+  @ApiParam({ name: 'code', description: 'Código único del cliente', example: 1001 })
+  @ApiResponse({ status: 200, description: 'Reservas del cliente obtenidas exitosamente' })
+  @ApiResponse({ status: 404, description: 'Cliente no encontrado' })
+  getClientReservations(@Param('code', ParseIntPipe) code: number) {
+    return this.clientService.getClientReservations(code);
+  }
+
+  /*
+    Obtener todos los vehículos de un cliente
+  */
+  @Get(':code/vehicles')
+  @ApiOperation({ summary: 'Obtener todos los vehículos del cliente' })
+  @ApiParam({ name: 'code', description: 'Código único del cliente', example: 1001 })
+  @ApiResponse({ status: 200, description: 'Vehículos del cliente obtenidos exitosamente' })
+  @ApiResponse({ status: 404, description: 'Cliente no encontrado' })
+  getClientVehicles(@Param('code', ParseIntPipe) code: number) {
+    return this.clientService.getClientVehicles(code);
+  }
+
   // ==================== OPERACIONES CRUD ====================
 
   /*
