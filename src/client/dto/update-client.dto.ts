@@ -12,8 +12,8 @@ import {
   Matches,
 } from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { ClientGender } from 'src/types/ClientGender';
-import { ContactMethod } from 'src/types/ContactMethod';
+import { ClientGender } from '../../types/ClientGender';
+import { ContactMethod } from '../../types/ContactMethod';
 
 export class UpdateClientDto extends PartialType(CreateClientDto) {
   @ApiProperty({
