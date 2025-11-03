@@ -4,7 +4,7 @@ import { ClientController } from './client.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Client } from './entities/client.entity';
 import { Reservate } from '../reservate/entities/reservate.entity';
-import { ClientVehicle } from '../client-vehicle/entities/client-vehicle.entity';
+import { ClientVehicle } from 'src/client-vehicle/entities/client-vehicle.entity';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Client, Reservate, ClientVehicle])],
