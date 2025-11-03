@@ -1,4 +1,5 @@
 import { ClientVehicle } from 'src/client-vehicle/entities/client-vehicle.entity';
+import { Order } from '../../order/entities/order.entity';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity({ name: 'vehicle' })
@@ -20,4 +21,7 @@ export class Vehicle {
 
   @OneToMany(() => ClientVehicle, (clientVehicle) => clientVehicle.vehicle)
   clientVehicles: ClientVehicle[];
+
+  @OneToMany(() => Order, (order) => order.vehicle)
+  orders: Order[];
 }
