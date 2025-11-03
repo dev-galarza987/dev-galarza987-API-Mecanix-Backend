@@ -17,7 +17,7 @@ export class AppController {
       year: new Date().getFullYear(),
       baseUrl: `http://localhost:${process.env.PORT || 3000}`,
       stats: {
-        endpoints: 25,
+        endpoints: 30,
         requests: 1247,
         uptime: 99.8,
         responseTime: 145
@@ -52,6 +52,12 @@ export class AppController {
           description: 'Sistema de reservas con programación inteligente de citas.',
           path: `/api/${process.env.API_VERSION || 'v1'}/reservate`,
           icon: '📅'
+        },
+        {
+          name: 'Mecánicos',
+          description: 'Gestión de mecánicos con especialidades y horarios de trabajo.',
+          path: `/api/${process.env.API_VERSION || 'v1'}/mechanic`,
+          icon: '👨‍🔧'
         }
       ]
     };
