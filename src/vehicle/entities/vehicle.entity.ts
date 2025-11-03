@@ -1,5 +1,5 @@
+import { ClientVehicle } from 'src/client-vehicle/entities/client-vehicle.entity';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { ClientVehicle } from '../../client-vehicle/entities/client-vehicle.entity';
 
 @Entity({ name: 'vehicle' })
 export class Vehicle {
