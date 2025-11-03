@@ -5,6 +5,8 @@ import { ClientStatisticsDto } from './dto/client-statistics.dto.js';
 import { TopClientDto } from './dto/top-client.dto.js';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Client } from './entities/client.entity.js';
+import { Reservate } from '../reservate/entities/reservate.entity.js';
+import { ClientVehicle } from '../client-vehicle/entities/client-vehicle.entity.js';
 import { Repository } from 'typeorm';
 import { ClientGender } from '../types/ClientGender.js';
 import { ContactMethod } from '../types/ContactMethod.js';
@@ -14,6 +16,8 @@ import { StateReservate } from '../types/StateReservate.js';
 export class ClientService {
   constructor(
     @InjectRepository(Client) private clientRepository: Repository<Client>,
+    @InjectRepository(Reservate) private reservateRepository: Repository<Reservate>,
+    @InjectRepository(ClientVehicle) private clientVehicleRepository: Repository<ClientVehicle>,
   ) {}
 
   // ==================== MÉTODOS CRUD ===================
@@ -401,6 +405,191 @@ export class ClientService {
           phone: phonePreferred,
           email: emailPreferred,
           whatsapp: whatsappPreferred,
+        },
+      };
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  }
+
+  // ==================== MÉTODOS DE HISTORIAL ===================
+  /**
+   * Obtener el historial completo de un cliente (reservas y vehículos)
+   */
+  async getClientHistory(code: number) {
+    try {
+      const client = await this.clientRepository.findOne({
+        where: { code },
+        relations: ['reservations', 'vehicles'],
+      });
+
+      if (!client) {
+        return null;
+      }
+
+      const reservations = await this.reservateRepository.find({
+        where: { client: { code } },
+        relations: ['client', 'services', 'mechanic'],
+        order: { reservationDate: 'DESC' },
+      });
+
+      const vehicles = await this.clientVehicleRepository.find({
+        where: { clientCode: code },
+        relations: ['vehicle'],
+        order: { addedDate: 'DESC' },
+      });
+
+      return {
+        client: {
+          code: client.code,
+          name: client.name,
+          lastname: client.lastname,
+          email: client.email,
+          phone: client.phone,
+          isActive: client.isActive,
+        },
+        reservations: reservations.map(r => ({
+          id: r.id,
+          code: r.code,
+          reservationDate: r.reservationDate,
+          state: r.state,
+          totalPrice: r.totalPrice,
+          services: r.services ? r.services.map(s => ({
+            id: s.id,
+            title: s.title,
+            price: s.price,
+          })) : [],
+          mechanic: r.mechanic ? {
+            id: r.mechanic.id,
+            firstName: r.mechanic.firstName,
+            lastName: r.mechanic.lastName,
+          } : null,
+        })),
+        vehicles: vehicles.map(cv => ({
+          relationId: cv.id,
+          isPrimary: cv.isPrimary,
+          isActive: cv.isActive,
+          addedDate: cv.addedDate,
+          notes: cv.notes,
+          vehicle: cv.vehicle ? {
+            id: cv.vehicle.id,
+            board: cv.vehicle.board,
+            model: cv.vehicle.model,
+            brand: cv.vehicle.brand,
+            year: cv.vehicle.year,
+          } : null,
+        })),
+        statistics: {
+          totalReservations: reservations.length,
+          activeVehicles: vehicles.filter(v => v.isActive).length,
+          totalSpent: reservations.reduce((sum, r) => sum + (r.totalPrice || 0), 0),
+        },
+      };
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  }
+
+  /**
+   * Obtener todas las reservas de un cliente
+   */
+  async getClientReservations(code: number) {
+    try {
+      const client = await this.clientRepository.findOne({ where: { code } });
+      if (!client) {
+        return null;
+      }
+
+      const reservations = await this.reservateRepository.find({
+        where: { client: { code } },
+        relations: ['services', 'mechanic'],
+        order: { reservationDate: 'DESC' },
+      });
+
+      return {
+        client: {
+          code: client.code,
+          name: client.name,
+          lastname: client.lastname,
+        },
+        reservations: reservations.map(r => ({
+          id: r.id,
+          code: r.code,
+          reservationDate: r.reservationDate,
+          state: r.state,
+          totalPrice: r.totalPrice,
+          services: r.services ? r.services.map(s => ({
+            id: s.id,
+            title: s.title,
+            description: s.description,
+            price: s.price,
+          })) : [],
+          mechanic: r.mechanic ? {
+            id: r.mechanic.id,
+            firstName: r.mechanic.firstName,
+            lastName: r.mechanic.lastName,
+          } : null,
+        })),
+        summary: {
+          total: reservations.length,
+          completed: reservations.filter(r => r.state === StateReservate.COMPLETED).length,
+          pending: reservations.filter(r => r.state === StateReservate.PENDING).length,
+          inProgress: reservations.filter(r => r.state === StateReservate.IN_PROGRESS).length,
+          totalSpent: reservations
+            .filter(r => r.state === StateReservate.COMPLETED)
+            .reduce((sum, r) => sum + (r.totalPrice || 0), 0),
+        },
+      };
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  }
+
+  /**
+   * Obtener todos los vehículos de un cliente
+   */
+  async getClientVehicles(code: number) {
+    try {
+      const client = await this.clientRepository.findOne({ where: { code } });
+      if (!client) {
+        return null;
+      }
+
+      const clientVehicles = await this.clientVehicleRepository.find({
+        where: { clientCode: code },
+        relations: ['vehicle'],
+        order: { isPrimary: 'DESC', addedDate: 'DESC' },
+      });
+
+      return {
+        client: {
+          code: client.code,
+          name: client.name,
+          lastname: client.lastname,
+        },
+        vehicles: clientVehicles.map(cv => ({
+          relationId: cv.id,
+          isPrimary: cv.isPrimary,
+          isActive: cv.isActive,
+          addedDate: cv.addedDate,
+          updatedAt: cv.updatedAt,
+          notes: cv.notes,
+          vehicle: cv.vehicle ? {
+            id: cv.vehicle.id,
+            board: cv.vehicle.board,
+            model: cv.vehicle.model,
+            brand: cv.vehicle.brand,
+            year: cv.vehicle.year,
+          } : null,
+        })),
+        summary: {
+          total: clientVehicles.length,
+          active: clientVehicles.filter(cv => cv.isActive).length,
+          inactive: clientVehicles.filter(cv => !cv.isActive).length,
+          primaryVehicle: clientVehicles.find(cv => cv.isPrimary),
         },
       };
     } catch (error) {
