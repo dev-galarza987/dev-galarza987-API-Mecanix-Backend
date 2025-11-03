@@ -22,13 +22,13 @@ export class ClientVehicle {
   vehicleId: number;
 
   @ManyToOne(() => Client, (client) => client.vehicles, { onDelete: 'CASCADE' })
-  @JoinColumn({ name: 'client_code' })
+  @JoinColumn({ name: 'client_code', referencedColumnName: 'code' })
   client: Client;
 
   @ManyToOne(() => Vehicle, (vehicle) => vehicle.clientVehicles, {
     onDelete: 'CASCADE',
   })
-  @JoinColumn({ name: 'vehicle_id' })
+  @JoinColumn({ name: 'vehicle_id', referencedColumnName: 'id' })
   vehicle: Vehicle;
 
   @Column({
