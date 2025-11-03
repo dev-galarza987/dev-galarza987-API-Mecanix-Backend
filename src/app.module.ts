@@ -10,6 +10,7 @@ import { UserModule } from './user/user.module';
 import { ReservateModule } from './reservate/reservate.module';
 import { MechanicModule } from './mechanic/mechanic.module';
 import { ClientVehicleModule } from './client-vehicle/client-vehicle.module';
+import { OrderModule } from './order/order.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { ClientVehicleModule } from './client-vehicle/client-vehicle.module';
     ReservateModule,
     MechanicModule,
     ClientVehicleModule,
+    OrderModule,
   ],
   controllers: [AppController],
   providers: [AppService],
