@@ -3,16 +3,19 @@ import { ReservateService } from './reservate.service';
 import { ReservateController } from './reservate.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Reservate } from './entities/reservate.entity';
-import { Client } from 'src/client/entities/client.entity';
-import { Service } from 'src/service/entities/service.entity';
-import { ClientModule } from 'src/client/client.module';
-import { ServiceModule } from 'src/service/service.module';
+import { Client } from '../client/entities/client.entity';
+import { Service } from '../service/entities/service.entity';
+import { Mechanic } from '../mechanic/entities/mechanic.entity';
+import { ClientModule } from '../client/client.module';
+import { ServiceModule } from '../service/service.module';
+import { MechanicModule } from '../mechanic/mechanic.module';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Reservate, Client, Service]),
+    TypeOrmModule.forFeature([Reservate, Client, Service, Mechanic]),
     ClientModule,
     ServiceModule,
+    MechanicModule,
   ],
   controllers: [ReservateController],
   providers: [ReservateService],

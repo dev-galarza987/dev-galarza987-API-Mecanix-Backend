@@ -1,6 +1,7 @@
-import { Client } from 'src/client/entities/client.entity';
-import { Service } from 'src/service/entities/service.entity';
-import { StateReservate } from 'src/types/StateReservate';
+import { Client } from '../../client/entities/client.entity';
+import { Service } from '../../service/entities/service.entity';
+import { Mechanic } from '../../mechanic/entities/mechanic.entity';
+import { StateReservate } from '../../types/StateReservate';
 import {
   Column,
   Entity,
@@ -48,6 +49,9 @@ export class Reservate {
 
   @ManyToOne(() => Client, (client) => client.reservations)
   client: Client;
+
+  @ManyToOne(() => Mechanic, (mechanic) => mechanic.reservations, { nullable: true })
+  mechanic: Mechanic | null;
 
   @ManyToMany(() => Service)
   @JoinTable({

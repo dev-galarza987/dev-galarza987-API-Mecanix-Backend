@@ -1,6 +1,6 @@
 import { PartialType } from '@nestjs/swagger';
 import { CreateMechanicDto } from './create-mechanic.dto.js';
-import { ExperienceLevel, MechanicSpecialty, MechanicStatus } from 'src/types/MechanicTypes.js';
+import { ExperienceLevel, MechanicSpecialty, MechanicStatus } from '../../types/MechanicTypes.js';
 
 export class UpdateMechanicDto extends PartialType(CreateMechanicDto) {
     employeeCode?: string | undefined;
