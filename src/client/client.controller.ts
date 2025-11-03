@@ -119,8 +119,78 @@ export class ClientController {
     return this.clientService.findOne(code);
   }
 
+  // ==================== ESTADÍSTICAS Y REPORTES ====================
+
   /*
-    Métodos de búsqueda específicos
+    Obtener estadísticas generales de todos los clientes
+  */
+  @Get('statistics/general')
+  @ApiOperation({ summary: 'Obtener estadísticas generales de todos los clientes' })
+  @ApiResponse({ status: 200, description: 'Estadísticas generales obtenidas' })
+  getGeneralStatistics() {
+    return this.clientService.getGeneralStatistics();
+  }
+
+  /*
+    Obtener top clientes (los que más gastan)
+  */
+  @Get('statistics/top')
+  @ApiOperation({ summary: 'Obtener los clientes que más gastan' })
+  @ApiQuery({ name: 'limit', description: 'Cantidad de clientes a retornar', example: 10, required: false })
+  @ApiResponse({ status: 200, description: 'Top clientes obtenidos' })
+  getTopClients(@Query('limit') limit?: number) {
+    return this.clientService.getTopClients(limit || 10);
+  }
+
+  /*
+    Obtener reporte de clientes inactivos
+  */
+  @Get('reports/inactive-clients')
+  @ApiOperation({ summary: 'Obtener clientes sin actividad en X días' })
+  @ApiQuery({ name: 'days', description: 'Días de inactividad', example: 90, required: false })
+  @ApiResponse({ status: 200, description: 'Reporte de clientes inactivos' })
+  getInactiveClientsReport(@Query('days') days?: number) {
+    return this.clientService.getInactiveClientsReport(days || 90);
+  }
+
+  /*
+    Obtener clientes por género
+  */
+  @Get('filter/gender/:gender')
+  @ApiOperation({ summary: 'Obtener clientes por género' })
+  @ApiParam({ name: 'gender', description: 'Género del cliente (male/female)', example: 'male' })
+  @ApiResponse({ status: 200, description: 'Clientes filtrados por género' })
+  getClientsByGender(@Param('gender') gender: string) {
+    return this.clientService.getClientsByGender(gender as any);
+  }
+
+  /*
+    Obtener clientes por método de contacto preferido
+  */
+  @Get('filter/contact-method/:method')
+  @ApiOperation({ summary: 'Obtener clientes por método de contacto preferido' })
+  @ApiParam({ name: 'method', description: 'Método de contacto (phone/email/whatsapp)', example: 'phone' })
+  @ApiResponse({ status: 200, description: 'Clientes filtrados por método de contacto' })
+  getClientsByContactMethod(@Param('method') method: string) {
+    return this.clientService.getClientsByContactMethod(method as any);
+  }
+
+  /*
+    Obtener estadísticas detalladas de un cliente
+  */
+  @Get(':code/statistics')
+  @ApiOperation({ summary: 'Obtener estadísticas detalladas de un cliente específico' })
+  @ApiParam({ name: 'code', description: 'Código único del cliente', example: 1001 })
+  @ApiResponse({ status: 200, description: 'Estadísticas del cliente obtenidas' })
+  @ApiResponse({ status: 404, description: 'Cliente no encontrado' })
+  getClientStatistics(@Param('code', ParseIntPipe) code: number) {
+    return this.clientService.getClientStatistics(code);
+  }
+
+  // ==================== OPERACIONES CRUD ====================
+
+  /*
+    Actualizar un cliente existente
   */
   @Patch(':code/update')
   @ApiOperation({ summary: 'Actualizar un cliente existente' })
