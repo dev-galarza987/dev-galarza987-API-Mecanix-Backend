@@ -1,6 +1,6 @@
-import { Reservate } from 'src/reservate/entities/reservate.entity';
-import { ClientGender } from 'src/types/ClientGender';
-import { ContactMethod } from 'src/types/ContactMethod';
+import { Reservate } from '../../reservate/entities/reservate.entity';
+import { ClientGender } from '../../types/ClientGender';
+import { ContactMethod } from '../../types/ContactMethod';
 import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
 @Entity({ name: 'client' })
