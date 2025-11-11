@@ -6,7 +6,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ClientModule } from './client/client.module';
 import { VehicleModule } from './vehicle/vehicle.module';
 import { ServiceModule } from './service/service.module';
-import { UserModule } from './user/user.module';
 import { ReservateModule } from './reservate/reservate.module';
 import { MechanicModule } from './mechanic/mechanic.module';
 import { ClientVehicleModule } from './client-vehicle/client-vehicle.module';
@@ -28,7 +27,6 @@ import { OrderModule } from './order/order.module';
     ClientModule,
     VehicleModule,
     ServiceModule,
-    UserModule,
     ReservateModule,
     MechanicModule,
     ClientVehicleModule,

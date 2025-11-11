@@ -2,24 +2,21 @@ import {
   Column,
   Entity,
   PrimaryGeneratedColumn,
-  OneToOne,
-  JoinColumn,
   OneToMany,
   ManyToMany,
   JoinTable,
   UpdateDateColumn,
   CreateDateColumn,
 } from 'typeorm';
-import { User } from '../../user/entities/user.entity.js';
-import { Service } from '../../service/entities/service.entity.js';
-import { Reservate } from '../../reservate/entities/reservate.entity.js';
-import { Order } from '../../order/entities/order.entity.js';
+import { Service } from '../../service/entities/service.entity';
+import { Reservate } from '../../reservate/entities/reservate.entity';
+import { Order } from '../../order/entities/order.entity';
 import {
   MechanicSpecialty,
   MechanicStatus,
   ExperienceLevel,
-} from '../../types/MechanicTypes.js';
-import { UserRole } from 'src/types/UserRole.js';
+} from '../../types/MechanicTypes';
+import { UserRole } from '../../types/UserRole';
 
 @Entity({ name: 'mechanic' })
 export class Mechanic {
@@ -138,9 +135,6 @@ export class Mechanic {
   updatedAt: Date;
 
   // Relaciones
-  @OneToOne(() => User, { nullable: true })
-  @JoinColumn({ name: 'user_id' })
-  user: User;
 
   @OneToMany(() => Reservate, (reservate) => reservate.mechanic)
   reservations: Reservate[];
