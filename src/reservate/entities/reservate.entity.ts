@@ -1,6 +1,7 @@
 import { Client } from '../../client/entities/client.entity';
 import { Service } from '../../service/entities/service.entity';
 import { Mechanic } from '../../mechanic/entities/mechanic.entity';
+import { Order } from '../../order/entities/order.entity';
 import { StateReservate } from '../../types/StateReservate';
 import {
   Column,
@@ -8,6 +9,7 @@ import {
   JoinTable,
   ManyToMany,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -81,4 +83,7 @@ export class Reservate {
     onUpdate: 'CURRENT_TIMESTAMP',
   })
   updatedAt: Date;
+
+  @OneToMany(() => Order, (order) => order.reservate)
+  orders: Order[];
 }
