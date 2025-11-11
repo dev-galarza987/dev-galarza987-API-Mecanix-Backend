@@ -134,6 +134,37 @@ export class MechanicService {
     });
   }
 
+  async updateByCode(
+    code: string,
+    updateMechanicDto: UpdateMechanicDto,
+  ): Promise<Mechanic> {
+    const mechanic = await this.findByEmployeeCode(code);
+
+    // Si se actualiza el código de empleado, verificar que no exista
+    if (
+      updateMechanicDto.employeeCode &&
+      updateMechanicDto.employeeCode !== mechanic.employeeCode
+    ) {
+      const existingMechanic = await this.mechanicRepository.findOne({
+        where: { employeeCode: updateMechanicDto.employeeCode },
+      });
+
+      if (existingMechanic) {
+        throw new ConflictException(
+          `Employee code ${updateMechanicDto.employeeCode} already exists`,
+        );
+      }
+    }
+
+    const updateData = { ...updateMechanicDto };
+    if (updateMechanicDto.hireDate) {
+      updateData.hireDate = updateMechanicDto.hireDate;
+    }
+
+    await this.mechanicRepository.update(mechanic.id, updateData);
+    return this.findByEmployeeCode(code);
+  }
+
   async update(id: number, updateMechanicDto: UpdateMechanicDto): Promise<Mechanic> {
     const mechanic = await this.findOne(id);
 
@@ -167,9 +198,28 @@ export class MechanicService {
     return mechanic;
   }
 
+  async updateStatusByCode(
+    code: string,
+    status: MechanicStatus,
+  ): Promise<Mechanic> {
+    const mechanic = await this.findByEmployeeCode(code);
+    mechanic.status = status;
+    await this.mechanicRepository.save(mechanic);
+    return mechanic;
+  }
+
   async remove(id: number): Promise<void> {
     const mechanic = await this.findOne(id);
-    
+
+    // Soft delete - marcar como inactivo en lugar de eliminar
+    mechanic.isActive = false;
+    mechanic.status = MechanicStatus.INACTIVE;
+    await this.mechanicRepository.save(mechanic);
+  }
+
+  async removeByCode(code: string): Promise<void> {
+    const mechanic = await this.findByEmployeeCode(code);
+
     // Soft delete - marcar como inactivo en lugar de eliminar
     mechanic.isActive = false;
     mechanic.status = MechanicStatus.INACTIVE;
@@ -186,6 +236,38 @@ export class MechanicService {
     };
   }> {
     const mechanic = await this.findOne(id);
+    
+    const startTime = mechanic.workScheduleStart;
+    const endTime = mechanic.workScheduleEnd;
+    const workDays = mechanic.workDays;
+
+    // Calcular horas totales por día
+    const [startHour, startMin] = startTime.split(':').map(Number);
+    const [endHour, endMin] = endTime.split(':').map(Number);
+    const totalMinutes = (endHour * 60 + endMin) - (startHour * 60 + startMin);
+    const totalHours = totalMinutes / 60;
+
+    return {
+      mechanic,
+      schedule: {
+        workDays,
+        startTime,
+        endTime,
+        totalHours,
+      },
+    };
+  }
+
+  async getWorkScheduleByCode(code: string): Promise<{
+    mechanic: Mechanic;
+    schedule: {
+      workDays: string[];
+      startTime: string;
+      endTime: string;
+      totalHours: number;
+    };
+  }> {
+    const mechanic = await this.findByEmployeeCode(code);
     
     const startTime = mechanic.workScheduleStart;
     const endTime = mechanic.workScheduleEnd;
@@ -385,14 +467,11 @@ export class MechanicService {
         yearsExperience: mechanic.yearsExperience,
         experienceLevel: mechanic.experienceLevel,
         phone: mechanic.phone,
-        emergencyContact: mechanic.emergencyContact,
       },
       workSchedule: workSchedule.schedule,
       performance: {
         status: mechanic.status,
         hourlyRate: mechanic.hourlyRate,
-        certifications: mechanic.certifications,
-        notes: mechanic.notes,
       },
       specialties: mechanic.specialties || [],
     };

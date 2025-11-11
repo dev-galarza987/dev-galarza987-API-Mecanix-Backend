@@ -34,7 +34,7 @@ export class CreateMechanicDto {
   @Matches(/^[A-Z0-9]+$/, {
     message: 'Employee code must contain only uppercase letters and numbers',
   })
-  employeeCode: string;
+  employeeCode!: string;
 
   @ApiProperty({
     description: 'Nombre del mecánico',
@@ -46,7 +46,7 @@ export class CreateMechanicDto {
   @IsNotEmpty()
   @MinLength(2)
   @MaxLength(100)
-  firstName: string;
+  firstName!: string;
 
   @ApiProperty({
     description: 'Apellido del mecánico',
@@ -58,7 +58,7 @@ export class CreateMechanicDto {
   @IsNotEmpty()
   @MinLength(2)
   @MaxLength(100)
-  lastName: string;
+  lastName!: string;
 
   @ApiPropertyOptional({
     description: 'Número de teléfono',
@@ -69,18 +69,7 @@ export class CreateMechanicDto {
   @Matches(/^\+?[1-9]\d{1,14}$/, {
     message: 'Phone number must be a valid international format',
   })
-  phone?: string;
-
-  @ApiPropertyOptional({
-    description: 'Contacto de emergencia',
-    example: '+0987654321',
-  })
-  @IsOptional()
-  @IsString()
-  @Matches(/^\+?[1-9]\d{1,14}$/, {
-    message: 'Emergency contact must be a valid international format',
-  })
-  emergencyContact?: string;
+  phone!: string;
 
   @ApiProperty({
     description: 'Fecha de contratación',
@@ -88,7 +77,7 @@ export class CreateMechanicDto {
   })
   @IsDateString()
   @IsNotEmpty()
-  hireDate: string;
+  hireDate!: string;
 
   @ApiPropertyOptional({
     description: 'Años de experiencia',
@@ -174,24 +163,6 @@ export class CreateMechanicDto {
   @IsArray()
   @IsString({ each: true })
   workDays?: string[];
-
-  @ApiPropertyOptional({
-    description: 'Certificaciones del mecánico',
-    example: 'ASE Certified Master Technician, EPA 609 Certification',
-  })
-  @IsOptional()
-  @IsString()
-  @MaxLength(1000)
-  certifications?: string;
-
-  @ApiPropertyOptional({
-    description: 'Notas adicionales',
-    example: 'Especialista en vehículos alemanes',
-  })
-  @IsOptional()
-  @IsString()
-  @MaxLength(500)
-  notes?: string;
 
   @ApiPropertyOptional({
     description: 'ID del usuario asociado',

@@ -7,15 +7,19 @@ import {
   OneToMany,
   ManyToMany,
   JoinTable,
+  UpdateDateColumn,
+  CreateDateColumn,
 } from 'typeorm';
 import { User } from '../../user/entities/user.entity.js';
 import { Service } from '../../service/entities/service.entity.js';
 import { Reservate } from '../../reservate/entities/reservate.entity.js';
+import { Order } from '../../order/entities/order.entity.js';
 import {
   MechanicSpecialty,
   MechanicStatus,
   ExperienceLevel,
 } from '../../types/MechanicTypes.js';
+import { UserRole } from 'src/types/UserRole.js';
 
 @Entity({ name: 'mechanic' })
 export class Mechanic {
@@ -46,19 +50,20 @@ export class Mechanic {
   phone: string;
 
   @Column({
-    name: 'emergency_contact',
-    type: 'varchar',
-    length: 20,
-    nullable: true,
+    type: 'enum',
+    enum: UserRole,
+    nullable: false,
+    default: UserRole.MECHANIC,
   })
-  emergencyContact: string;
+  type: UserRole;
 
   @Column({
     name: 'hire_date',
     type: 'date',
     nullable: false,
+    default: () => 'CURRENT_DATE',
   })
-  hireDate: Date;
+  hireDate: Date; // Fecha de contratación
 
   @Column({
     name: 'years_experience',
@@ -95,58 +100,40 @@ export class Mechanic {
     scale: 2,
     nullable: true,
   })
-  hourlyRate: number;
+  hourlyRate: number; // Tarifa por hora en Bs.
 
   @Column({
     name: 'work_schedule_start',
     type: 'time',
     default: '08:00:00',
   })
-  workScheduleStart: string;
+  workScheduleStart: string;  // Hora de inicio de la jornada laboral
 
   @Column({
     name: 'work_schedule_end',
     type: 'time',
     default: '17:00:00',
   })
-  workScheduleEnd: string;
+  workScheduleEnd: string;  // Hora de finalización de la jornada laboral
+
 
   @Column({
     name: 'work_days',
     type: 'simple-array',
     default: 'Monday,Tuesday,Wednesday,Thursday,Friday',
   })
-  workDays: string[];
+  workDays: string[]; // Días de trabajo
 
-  @Column({
-    name: 'certifications',
-    type: 'text',
-    nullable: true,
-  })
-  certifications: string;
-
-  @Column({
-    name: 'notes',
-    type: 'text',
-    nullable: true,
-  })
-  notes: string;
-
-  @Column({ default: true })
+  @Column({ name: 'is_active', type: 'boolean', default: true })
   isActive: boolean;
 
-  @Column({
+  @CreateDateColumn({
     name: 'created_at',
-    type: 'timestamp',
-    default: () => 'CURRENT_TIMESTAMP',
   })
   createdAt: Date;
 
-  @Column({
+  @UpdateDateColumn({
     name: 'updated_at',
-    type: 'timestamp',
-    default: () => 'CURRENT_TIMESTAMP',
-    onUpdate: 'CURRENT_TIMESTAMP',
   })
   updatedAt: Date;
 
@@ -157,6 +144,9 @@ export class Mechanic {
 
   @OneToMany(() => Reservate, (reservate) => reservate.mechanic)
   reservations: Reservate[];
+
+  @OneToMany(() => Order, (order) => order.mechanic)
+  orders: Order[];
 
   @ManyToMany(() => Service, (service) => service.mechanics)
   @JoinTable({

@@ -9,7 +9,6 @@ import {
   Query,
   HttpCode,
   HttpStatus,
-  ParseIntPipe,
   ValidationPipe,
   UsePipes,
 } from '@nestjs/common';
@@ -53,8 +52,8 @@ export class MechanicController {
     status: 400,
     description: 'Datos de entrada inválidos',
   })
-  async create(@Body() createMechanicDto: CreateMechanicDto): Promise<void> {
-    await this.mechanicService.create(createMechanicDto);
+  async create(@Body() createMechanic: CreateMechanicDto): Promise<void> {
+    await this.mechanicService.create(createMechanic);
   }
 
   @Get()
@@ -203,13 +202,33 @@ export class MechanicController {
     return await this.mechanicService.findByEmployeeCode(code);
   }
 
-  @Get(':id')
-  @ApiOperation({ summary: 'Obtener un mecánico por ID' })
+  @Get(':code/schedule')
+  @ApiOperation({ summary: 'Obtener horario de trabajo de un mecánico' })
   @ApiParam({
-    name: 'id',
-    type: Number,
-    description: 'ID único del mecánico',
-    example: 1,
+    name: 'code',
+    type: String,
+    description: 'Código único del empleado mecánico',
+    example: 'MEC001',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Horario de trabajo obtenido exitosamente',
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Mecánico no encontrado',
+  })
+  async getWorkSchedule(@Param('code') code: string) {
+    return await this.mechanicService.getWorkScheduleByCode(code);
+  }
+
+  @Get(':code')
+  @ApiOperation({ summary: 'Obtener un mecánico por código' })
+  @ApiParam({
+    name: 'code',
+    type: String,
+    description: 'Código único del empleado mecánico',
+    example: 'MEC001',
   })
   @ApiResponse({
     status: 200,
@@ -220,37 +239,17 @@ export class MechanicController {
     status: 404,
     description: 'Mecánico no encontrado',
   })
-  async findOne(@Param('id', ParseIntPipe) id: number): Promise<Mechanic> {
-    return await this.mechanicService.findOne(id);
+  async findOne(@Param('code') code: string): Promise<Mechanic> {
+    return await this.mechanicService.findByEmployeeCode(code);
   }
 
-  @Get(':id/schedule')
-  @ApiOperation({ summary: 'Obtener horario de trabajo de un mecánico' })
-  @ApiParam({
-    name: 'id',
-    type: Number,
-    description: 'ID único del mecánico',
-    example: 1,
-  })
-  @ApiResponse({
-    status: 200,
-    description: 'Horario de trabajo obtenido exitosamente',
-  })
-  @ApiResponse({
-    status: 404,
-    description: 'Mecánico no encontrado',
-  })
-  async getWorkSchedule(@Param('id', ParseIntPipe) id: number) {
-    return await this.mechanicService.getWorkSchedule(id);
-  }
-
-  @Patch(':id')
+  @Patch(':code/update')
   @ApiOperation({ summary: 'Actualizar información de un mecánico' })
   @ApiParam({
-    name: 'id',
-    type: Number,
-    description: 'ID único del mecánico',
-    example: 1,
+    name: 'code',
+    type: String,
+    description: 'Código único del empleado mecánico',
+    example: 'MEC001',
   })
   @ApiBody({ type: UpdateMechanicDto })
   @ApiResponse({
@@ -267,19 +266,19 @@ export class MechanicController {
     description: 'El código de empleado ya existe',
   })
   async update(
-    @Param('id', ParseIntPipe) id: number,
-    @Body() updateMechanicDto: UpdateMechanicDto,
+    @Param('code') code: string,
+    @Body() updateMechanic: UpdateMechanicDto,
   ): Promise<Mechanic> {
-    return await this.mechanicService.update(id, updateMechanicDto);
+    return await this.mechanicService.updateByCode(code, updateMechanic);
   }
 
-  @Patch(':id/status')
+  @Patch(':code/status')
   @ApiOperation({ summary: 'Actualizar estado de un mecánico' })
   @ApiParam({
-    name: 'id',
-    type: Number,
-    description: 'ID único del mecánico',
-    example: 1,
+    name: 'code',
+    type: String,
+    description: 'Código único del empleado mecánico',
+    example: 'MEC001',
   })
   @ApiBody({
     schema: {
@@ -304,20 +303,20 @@ export class MechanicController {
     description: 'Mecánico no encontrado',
   })
   async updateStatus(
-    @Param('id', ParseIntPipe) id: number,
+    @Param('code') code: string,
     @Body('status') status: MechanicStatus,
   ): Promise<Mechanic> {
-    return await this.mechanicService.updateStatus(id, status);
+    return await this.mechanicService.updateStatusByCode(code, status);
   }
 
-  @Delete(':id')
+  @Delete(':code/delete')
   @HttpCode(HttpStatus.NO_CONTENT)
   @ApiOperation({ summary: 'Eliminar un mecánico (soft delete)' })
   @ApiParam({
-    name: 'id',
-    type: Number,
-    description: 'ID único del mecánico',
-    example: 1,
+    name: 'code',
+    type: String,
+    description: 'Código único del empleado mecánico',
+    example: 'MEC001',
   })
   @ApiResponse({
     status: 204,
@@ -327,7 +326,7 @@ export class MechanicController {
     status: 404,
     description: 'Mecánico no encontrado',
   })
-  async remove(@Param('id', ParseIntPipe) id: number): Promise<void> {
-    return await this.mechanicService.remove(id);
+  async remove(@Param('code') code: string): Promise<void> {
+    return await this.mechanicService.removeByCode(code);
   }
 }
