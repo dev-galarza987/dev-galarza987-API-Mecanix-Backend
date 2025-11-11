@@ -49,7 +49,7 @@ export class MechanicService {
     lastPage: number;
   }> {
     const [mechanics, total] = await this.mechanicRepository.findAndCount({
-      relations: ['user', 'services', 'reservations'],
+      relations: ['services', 'reservations', 'orders'],
       take: limit,
       skip: (page - 1) * limit,
       order: { createdAt: 'DESC' },
@@ -66,7 +66,7 @@ export class MechanicService {
   async findOne(id: number): Promise<Mechanic> {
     const mechanic = await this.mechanicRepository.findOne({
       where: { id },
-      relations: ['user', 'services', 'reservations'],
+      relations: ['services', 'reservations', 'orders'],
     });
 
     if (!mechanic) {
@@ -79,7 +79,7 @@ export class MechanicService {
   async findByEmployeeCode(employeeCode: string): Promise<Mechanic> {
     const mechanic = await this.mechanicRepository.findOne({
       where: { employeeCode },
-      relations: ['user', 'services', 'reservations'],
+      relations: ['services', 'reservations', 'orders'],
     });
 
     if (!mechanic) {
@@ -100,7 +100,6 @@ export class MechanicService {
         specialty: `%${specialty}%`,
       })
       .andWhere('mechanic.isActive = :isActive', { isActive: true })
-      .leftJoinAndSelect('mechanic.user', 'user')
       .leftJoinAndSelect('mechanic.services', 'services')
       .getMany();
   }
@@ -110,7 +109,6 @@ export class MechanicService {
       .createQueryBuilder('mechanic')
       .where('mechanic.status = :status', { status: MechanicStatus.ACTIVE })
       .andWhere('mechanic.isActive = :isActive', { isActive: true })
-      .leftJoinAndSelect('mechanic.user', 'user')
       .leftJoinAndSelect('mechanic.services', 'services');
 
     if (date) {
@@ -130,7 +128,7 @@ export class MechanicService {
   ): Promise<Mechanic[]> {
     return await this.mechanicRepository.find({
       where: { experienceLevel, isActive: true },
-      relations: ['user', 'services'],
+      relations: ['services'],
     });
   }
 
@@ -339,7 +337,6 @@ export class MechanicService {
       })
       .andWhere('mechanic.isActive = :isActive', { isActive: true })
       .andWhere('mechanic.status = :status', { status: MechanicStatus.ACTIVE })
-      .leftJoinAndSelect('mechanic.user', 'user')
       .getMany();
   }
 
@@ -350,7 +347,6 @@ export class MechanicService {
       .orWhere('mechanic.lastName ILIKE :searchTerm', { searchTerm: `%${searchTerm}%` })
       .orWhere('mechanic.employeeCode ILIKE :searchTerm', { searchTerm: `%${searchTerm}%` })
       .andWhere('mechanic.isActive = :isActive', { isActive: true })
-      .leftJoinAndSelect('mechanic.user', 'user')
       .leftJoinAndSelect('mechanic.services', 'services')
       .getMany();
   }
@@ -402,7 +398,7 @@ export class MechanicService {
   }[]> {
     const mechanics = await this.mechanicRepository.find({
       where: { isActive: true },
-      relations: ['user', 'services'],
+      relations: ['services'],
       take: limit,
     });
 
@@ -436,7 +432,6 @@ export class MechanicService {
       .where('mechanic.status = :status', { status: MechanicStatus.ACTIVE })
       .andWhere('mechanic.isActive = :isActive', { isActive: true })
       .andWhere('mechanic.workDays LIKE :dayName', { dayName: `%${dayName}%` })
-      .leftJoinAndSelect('mechanic.user', 'user')
       .leftJoinAndSelect('mechanic.services', 'services');
 
     if (requiredSpecialty) {
