@@ -1,25 +1,43 @@
-import { PartialType } from '@nestjs/mapped-types';
-import { CreateVehicleDto } from './create-vehicle.dto.js';
-import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { PartialType } from '@nestjs/swagger';
+import { CreateVehicleDto } from './create-vehicle.dto';
+import { IsNumber, IsString, IsOptional } from 'class-validator';
+import { ApiPropertyOptional } from '@nestjs/swagger';
 
 export class UpdateVehicleDto extends PartialType(CreateVehicleDto) {
-  @IsNotEmpty({ message: 'El campo id es requerido' })
-  @IsNumber({}, { message: 'El campo id debe ser un numero' })
-  id!: number;
-
-  @IsNotEmpty({ message: 'El campo board es requerido' })
+  @ApiPropertyOptional({
+    description: 'Placa del vehículo',
+    example: 'ABC123',
+    maxLength: 15,
+  })
+  @IsOptional()
   @IsString({ message: 'El campo board debe ser una cadena de caracteres' })
   board?: string;
 
-  @IsNotEmpty({ message: 'El campo model es requerido' })
+  @ApiPropertyOptional({
+    description: 'Modelo del vehículo',
+    example: 'Corolla',
+    maxLength: 50,
+  })
+  @IsOptional()
   @IsString({ message: 'El campo model debe ser una cadena de caracteres' })
   model?: string;
 
-  @IsNotEmpty({ message: 'El campo brand es requerido' })
+  @ApiPropertyOptional({
+    description: 'Marca del vehículo',
+    example: 'Toyota',
+    maxLength: 50,
+  })
+  @IsOptional()
   @IsString({ message: 'El campo brand debe ser una cadena de caracteres' })
   brand?: string;
 
-  @IsNotEmpty({ message: 'El campo year es requerido' })
+  @ApiPropertyOptional({
+    description: 'Año del vehículo',
+    example: 2023,
+    minimum: 1900,
+    maximum: new Date().getFullYear() + 1,
+  })
+  @IsOptional()
   @IsNumber({}, { message: 'El campo year debe ser un numero' })
   year?: number;
 }
