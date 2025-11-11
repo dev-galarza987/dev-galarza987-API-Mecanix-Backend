@@ -1,3 +1,4 @@
+import { UserRole } from 'src/types/UserRole';
 import { Reservate } from '../../reservate/entities/reservate.entity';
 import { ClientGender } from '../../types/ClientGender';
 import { ContactMethod } from '../../types/ContactMethod';
@@ -21,8 +22,16 @@ export class Client {
   @Column({ type: 'varchar', name: 'phone', nullable: false, unique: true, length: 10 })
   phone: string;
 
-  @Column({ type: 'int', name: 'ci', nullable: false, unique: true })
+  @Column({ type: 'int', name: 'ci', nullable: true, unique: true })
   ci: number;
+
+  @Column({
+    type: 'enum',
+    enum: UserRole,
+    nullable: false,
+    default: UserRole.CLIENT,
+  })
+  type: UserRole;
 
   @Column({
     type: 'enum',
