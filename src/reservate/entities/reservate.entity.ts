@@ -49,10 +49,10 @@ export class Reservate {
   })
   state: StateReservate;
 
-  @ManyToOne(() => Client, (client) => client.reservations)
-  client: Client;
+  @ManyToOne(() => Client, (client) => client.reservations, { onDelete: 'SET NULL', nullable: true })
+  client: Client | null;
 
-  @ManyToOne(() => Mechanic, (mechanic) => mechanic.reservations, { nullable: true })
+  @ManyToOne(() => Mechanic, (mechanic) => mechanic.reservations, { nullable: true, onDelete: 'SET NULL' })
   mechanic: Mechanic | null;
 
   @ManyToMany(() => Service)

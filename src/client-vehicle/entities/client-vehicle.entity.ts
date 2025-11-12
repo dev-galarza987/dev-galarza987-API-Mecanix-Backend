@@ -15,21 +15,22 @@ export class ClientVehicle {
   @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
   id: number;
 
-  @Column({ type: 'int', name: 'client_code' })
+  @Column({ type: 'int', name: 'client_code', nullable: true })
   clientCode: number;
 
-  @Column({ type: 'int', name: 'vehicle_id' })
+  @Column({ type: 'int', name: 'vehicle_id', nullable: true })
   vehicleId: number;
 
-  @ManyToOne(() => Client, (client) => client.vehicles, { onDelete: 'CASCADE' })
+  @ManyToOne(() => Client, (client) => client.vehicles, { onDelete: 'SET NULL', nullable: true })
   @JoinColumn({ name: 'client_code', referencedColumnName: 'code' })
-  client: Client;
+  client: Client | null;
 
   @ManyToOne(() => Vehicle, (vehicle) => vehicle.clientVehicles, {
-    onDelete: 'CASCADE',
+    onDelete: 'SET NULL',
+    nullable: true,
   })
   @JoinColumn({ name: 'vehicle_id', referencedColumnName: 'id' })
-  vehicle: Vehicle;
+  vehicle: Vehicle | null;
 
   @Column({
     type: 'boolean',

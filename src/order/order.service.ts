@@ -239,6 +239,15 @@ export class OrderService {
       throw new NotFoundException(`Orden con código ${code} no encontrada`);
     }
 
+    // Verificar que las relaciones necesarias no sean nulas
+    if (!order.reservate) {
+      throw new BadRequestException('La orden no tiene una reserva asociada válida');
+    }
+
+    if (!order.vehicle) {
+      throw new BadRequestException('La orden no tiene un vehículo asociado válido');
+    }
+
     // Preparar información de servicios
     const services = order.reservate.services.map((service) => ({
       serviceId: service.id,
@@ -287,6 +296,15 @@ export class OrderService {
 
     if (!order) {
       throw new NotFoundException(`Orden con ID ${orderId} no encontrada`);
+    }
+
+    // Verificar que las relaciones necesarias no sean nulas
+    if (!order.reservate) {
+      throw new BadRequestException('La orden no tiene una reserva asociada válida');
+    }
+
+    if (!order.vehicle) {
+      throw new BadRequestException('La orden no tiene un vehículo asociado válido');
     }
 
     // Preparar información de servicios

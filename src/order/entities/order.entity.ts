@@ -27,17 +27,17 @@ export class Order {
   })
   code: string;
 
-  @ManyToOne(() => Reservate, { nullable: false })
+  @ManyToOne(() => Reservate, { nullable: true, onDelete: 'SET NULL' })
   @JoinColumn({ name: 'reservate_id' })
-  reservate: Reservate;
+  reservate: Reservate | null;
 
-  @ManyToOne(() => Vehicle, { nullable: false })
+  @ManyToOne(() => Vehicle, { nullable: true, onDelete: 'SET NULL' })
   @JoinColumn({ name: 'vehicle_id' })
-  vehicle: Vehicle;
+  vehicle: Vehicle | null;
 
-  @ManyToOne(() => Mechanic, { nullable: false })
+  @ManyToOne(() => Mechanic, { nullable: true, onDelete: 'SET NULL' })
   @JoinColumn({ name: 'mechanic_id' })
-  mechanic: Mechanic;
+  mechanic: Mechanic | null;
 
   @Column({
     type: 'enum',
