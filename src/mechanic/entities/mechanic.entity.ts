@@ -142,7 +142,10 @@ export class Mechanic {
   @OneToMany(() => Order, (order) => order.mechanic)
   orders: Order[];
 
-  @ManyToMany(() => Service, (service) => service.mechanics)
+  @ManyToMany(() => Service, (service) => service.mechanics, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE'
+  })
   @JoinTable({
     name: 'mechanic_services',
     joinColumn: {

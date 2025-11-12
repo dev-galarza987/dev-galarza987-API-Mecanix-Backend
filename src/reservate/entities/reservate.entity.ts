@@ -55,7 +55,10 @@ export class Reservate {
   @ManyToOne(() => Mechanic, (mechanic) => mechanic.reservations, { nullable: true, onDelete: 'SET NULL' })
   mechanic: Mechanic | null;
 
-  @ManyToMany(() => Service)
+  @ManyToMany(() => Service, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE'
+  })
   @JoinTable({
     name: 'reservate_service',
     joinColumn: {

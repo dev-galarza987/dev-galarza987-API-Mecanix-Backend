@@ -49,6 +49,9 @@ export class Service {
     type: () => [Mechanic]
   })
   // Relación con Mechanic
-  @ManyToMany(() => Mechanic, (mechanic) => mechanic.services)
+  @ManyToMany(() => Mechanic, (mechanic) => mechanic.services, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE'
+  })
   mechanics: Mechanic[];
 }

@@ -8,6 +8,10 @@ export class AppController {
   @Get()
   @Render('index')
   getHomePage() {
+    return this.getIndexData();
+  }
+
+  private getIndexData() {
     return {
       title: 'API Mecanix Backend',
       description: 'API REST completa para la gestión integral de talleres mecánicos. Administra usuarios, clientes, vehículos, servicios y reservas con una arquitectura moderna y escalable.',

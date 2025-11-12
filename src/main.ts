@@ -17,7 +17,9 @@ async function bootstrap() {
   try {
     const app = await NestFactory.create<NestExpressApplication>(AppModule);
     app.enableCors();
-    app.setGlobalPrefix('api/' + process.env.API_VERSION);
+    app.setGlobalPrefix('api/' + process.env.API_VERSION, {
+      exclude: ['/'] // Excluir la ruta raíz del prefijo global
+    });
     app.use(morgan.default('dev'));
 
     const config = new DocumentBuilder()

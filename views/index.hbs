@@ -2,117 +2,139 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="theme-color" content="#2563eb">
     <title>{{title}} - API Mecanix</title>
     <meta name="description" content="API REST para gestión de talleres mecánicos. Administra clientes, vehículos, servicios y reservas de manera eficiente.">
-    <meta name="keywords" content="API, REST, taller mecánico, gestión, NestJS, backend">
+    <meta name="keywords" content="API, REST, taller mecánico, gestión, NestJS, backend, responsivo">
     <link rel="stylesheet" href="/css/style.css">
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    
+    <!-- Prefetch para mejor rendimiento -->
+    <link rel="prefetch" href="/api/docs">
+    
+    <!-- PWA meta tags para móviles -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Mecanix API">
 </head>
 <body>
     <!-- Header -->
     <header class="header">
-        <nav class="navbar container">
-            <a href="/" class="logo">
-                <div class="logo-icon">M</div>
+        <nav class="navbar container" role="navigation" aria-label="Navegación principal">
+            <a href="/" class="logo" aria-label="Inicio - Mecanix API">
+                <div class="logo-icon" aria-hidden="true">M</div>
                 <span>Mecanix API</span>
             </a>
-            <ul class="nav-links">
-                <li><a href="#inicio">Inicio</a></li>
-                <li><a href="#features">Características</a></li>
-                <li><a href="#stats">Estadísticas</a></li>
-                <li><a href="/api/docs" target="_blank">Documentación</a></li>
+            
+            <!-- Menú hamburguesa para móvil (se agregará con JS) -->
+            <button class="mobile-menu-toggle" type="button" aria-label="Abrir menú de navegación" style="display: none;">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            
+            <ul class="nav-links" role="menubar">
+                <li role="none"><a href="#inicio" role="menuitem">Inicio</a></li>
+                <li role="none"><a href="#features" role="menuitem">Características</a></li>
+                <li role="none"><a href="#stats" role="menuitem">Estadísticas</a></li>
+                <li role="none"><a href="/api/docs" target="_blank" rel="noopener" role="menuitem">Documentación</a></li>
             </ul>
         </nav>
     </header>
 
     <!-- Hero Section -->
-    <section id="inicio" class="hero">
+    <section id="inicio" class="hero" role="banner">
         <div class="container">
             <h1>{{title}}</h1>
             <p>{{description}}</p>
-            <div class="status-badge status-active" id="api-status">
-                <span class="status-indicator"></span>
-                Verificando...
+            <div class="status-badge status-active" id="api-status" role="status" aria-live="polite">
+                <span class="status-indicator" aria-hidden="true"></span>
+                Verificando estado de la API...
             </div>
             <div class="cta-buttons">
-                <a href="/api/docs" class="btn btn-primary" target="_blank">Ver Documentación</a>
-                <a href="#features" class="btn btn-secondary">Conocer Más</a>
+                <a href="/api/docs" class="btn btn-primary" target="_blank" rel="noopener">
+                    Ver Documentación
+                </a>
+                <a href="#features" class="btn btn-secondary">
+                    Conocer Más
+                </a>
             </div>
         </div>
     </section>
 
     <!-- Features Section -->
-    <section id="features" class="features">
+    <section id="features" class="features" role="main">
         <div class="container">
             <div class="section-title">
                 <h2>Características Principales</h2>
                 <p>Una API completa y moderna para la gestión integral de talleres mecánicos</p>
             </div>
             
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">👥</div>
+            <div class="features-grid" role="list">
+                <article class="feature-card fade-in" role="listitem">
+                    <div class="feature-icon" aria-hidden="true">👥</div>
                     <h3>Gestión de Usuarios</h3>
                     <p>Sistema completo de autenticación y autorización con diferentes roles de usuario. Administra mecánicos, recepcionistas y administradores.</p>
-                </div>
+                </article>
                 
-                <div class="feature-card">
-                    <div class="feature-icon">🚗</div>
+                <article class="feature-card fade-in" role="listitem">
+                    <div class="feature-icon" aria-hidden="true">🚗</div>
                     <h3>Control de Vehículos</h3>
                     <p>Registro detallado de vehículos con historial de servicios, mantenimientos y reparaciones. Seguimiento completo del estado de cada vehículo.</p>
-                </div>
+                </article>
                 
-                <div class="feature-card">
-                    <div class="feature-icon">🔧</div>
+                <article class="feature-card fade-in" role="listitem">
+                    <div class="feature-icon" aria-hidden="true">🔧</div>
                     <h3>Servicios Técnicos</h3>
                     <p>Catálogo completo de servicios mecánicos con precios, duración estimada y recursos necesarios. Gestión de inventario y repuestos.</p>
-                </div>
+                </article>
                 
-                <div class="feature-card">
-                    <div class="feature-icon">📅</div>
+                <article class="feature-card fade-in" role="listitem">
+                    <div class="feature-icon" aria-hidden="true">📅</div>
                     <h3>Sistema de Reservas</h3>
                     <p>Programación inteligente de citas con notificaciones automáticas. Control de disponibilidad y optimización de recursos.</p>
-                </div>
+                </article>
                 
-                <div class="feature-card">
-                    <div class="feature-icon">👤</div>
+                <article class="feature-card fade-in" role="listitem">
+                    <div class="feature-icon" aria-hidden="true">👤</div>
                     <h3>Gestión de Clientes</h3>
                     <p>Base de datos completa de clientes con historial de servicios, preferencias y información de contacto actualizada.</p>
-                </div>
+                </article>
                 
-                <div class="feature-card">
-                    <div class="feature-icon">📊</div>
+                <article class="feature-card fade-in" role="listitem">
+                    <div class="feature-icon" aria-hidden="true">📊</div>
                     <h3>Reportes y Analytics</h3>
                     <p>Dashboard con métricas en tiempo real, reportes de rendimiento y análisis de tendencias para toma de decisiones estratégicas.</p>
-                </div>
+                </article>
             </div>
         </div>
     </section>
 
     <!-- API Stats -->
-    <section id="stats" class="api-stats">
+    <section id="stats" class="api-stats" role="complementary">
         <div class="container">
             <div class="section-title">
                 <h2 style="color: white;">Estadísticas de la API</h2>
                 <p style="color: rgba(255,255,255,0.8);">Rendimiento y uso en tiempo real</p>
             </div>
             
-            <div class="stats-grid">
-                <div class="stat-item">
-                    <span class="stat-number" data-count="{{stats.endpoints}}">0</span>
+            <div class="stats-grid" role="list">
+                <div class="stat-item" role="listitem">
+                    <span class="stat-number" data-count="{{stats.endpoints}}" aria-label="{{stats.endpoints}} endpoints disponibles">0</span>
                     <span class="stat-label">Endpoints Disponibles</span>
                 </div>
-                <div class="stat-item">
-                    <span class="stat-number" data-count="{{stats.requests}}">0</span>
+                <div class="stat-item" role="listitem">
+                    <span class="stat-number" data-count="{{stats.requests}}" aria-label="{{stats.requests}} requests procesados">0</span>
                     <span class="stat-label">Requests Procesados</span>
                 </div>
-                <div class="stat-item">
-                    <span class="stat-number" data-count="{{stats.uptime}}">0</span>
+                <div class="stat-item" role="listitem">
+                    <span class="stat-number" data-count="{{stats.uptime}}" aria-label="{{stats.uptime}} por ciento de tiempo activo">0</span>
                     <span class="stat-label">% Uptime</span>
                 </div>
-                <div class="stat-item">
-                    <span class="stat-number" data-count="{{stats.responseTime}}">0</span>
+                <div class="stat-item" role="listitem">
+                    <span class="stat-number" data-count="{{stats.responseTime}}" aria-label="{{stats.responseTime}} milisegundos de tiempo de respuesta">0</span>
                     <span class="stat-label">ms Tiempo Respuesta</span>
                 </div>
             </div>
@@ -120,21 +142,21 @@
     </section>
 
     <!-- API Endpoints Info -->
-    <section class="features" style="background: white;">
+    <section class="features" style="background: white;" role="region" aria-labelledby="endpoints-title">
         <div class="container">
             <div class="section-title">
-                <h2>Endpoints Principales</h2>
+                <h2 id="endpoints-title">Endpoints Principales</h2>
                 <p>Recursos disponibles en la API REST</p>
             </div>
             
-            <div class="features-grid">
+            <div class="features-grid" role="list">
                 {{#each endpoints}}
-                <div class="feature-card">
-                    <div class="feature-icon">{{this.icon}}</div>
+                <article class="feature-card" role="listitem">
+                    <div class="feature-icon" aria-hidden="true">{{this.icon}}</div>
                     <h3>{{this.name}}</h3>
                     <p>{{this.description}}</p>
                     <div style="margin-top: 1rem;">
-                        <code style="background: #f3f4f6; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.875rem;">
+                        <code style="background: #f3f4f6; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.875rem; word-break: break-all;">
                             {{this.path}}
                         </code>
                     </div>
@@ -142,17 +164,18 @@
                         onclick="copyToClipboard('{{../baseUrl}}{{this.path}}', this)" 
                         class="btn btn-primary" 
                         style="margin-top: 1rem; font-size: 0.875rem; padding: 0.5rem 1rem;"
+                        aria-label="Copiar URL de {{this.name}} al portapapeles"
                     >
                         Copiar URL
                     </button>
-                </div>
+                </article>
                 {{/each}}
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="footer">
+    <footer class="footer" role="contentinfo">
         <div class="container">
             <div class="footer-content">
                 <div class="footer-section">
@@ -166,8 +189,8 @@
                 <div class="footer-section">
                     <h3>Recursos</h3>
                     <ul>
-                        <li><a href="/api/docs">Documentación API</a></li>
-                        <li><a href="/api/docs-json">Schema OpenAPI</a></li>
+                        <li><a href="/api/docs" target="_blank" rel="noopener">Documentación API</a></li>
+                        <li><a href="/api/docs-json" target="_blank" rel="noopener">Schema OpenAPI</a></li>
                         <li><a href="#stats">Estadísticas</a></li>
                         <li><a href="#features">Características</a></li>
                     </ul>
@@ -176,11 +199,11 @@
                 <div class="footer-section">
                     <h3>Endpoints</h3>
                     <ul>
-                        <li><a href="/api/{{version}}/user">Usuarios</a></li>
-                        <li><a href="/api/{{version}}/client">Clientes</a></li>
-                        <li><a href="/api/{{version}}/vehicle">Vehículos</a></li>
-                        <li><a href="/api/{{version}}/service">Servicios</a></li>
-                        <li><a href="/api/{{version}}/reservate">Reservas</a></li>
+                        <li><a href="/api/{{version}}/user" target="_blank" rel="noopener">Usuarios</a></li>
+                        <li><a href="/api/{{version}}/client" target="_blank" rel="noopener">Clientes</a></li>
+                        <li><a href="/api/{{version}}/vehicle" target="_blank" rel="noopener">Vehículos</a></li>
+                        <li><a href="/api/{{version}}/service" target="_blank" rel="noopener">Servicios</a></li>
+                        <li><a href="/api/{{version}}/reservate" target="_blank" rel="noopener">Reservas</a></li>
                     </ul>
                 </div>
                 
@@ -190,7 +213,7 @@
                         <li>Versión: {{version}}</li>
                         <li>Entorno: {{environment}}</li>
                         <li>Puerto: {{port}}</li>
-                        <li>Estado: <span id="footer-status" class="status-badge status-active">Activa</span></li>
+                        <li>Estado: <span id="footer-status" class="status-badge status-active" aria-live="polite">Activa</span></li>
                     </ul>
                 </div>
             </div>
@@ -199,12 +222,46 @@
                 <p>&copy; {{year}} API Mecanix. Desarrollado con ❤️ usando NestJS</p>
                 <p style="margin-top: 0.5rem; font-size: 0.875rem;">
                     Documentación completa disponible en 
-                    <a href="/api/docs" style="color: #3b82f6;">Swagger UI</a>
+                    <a href="/api/docs" style="color: #3b82f6;" target="_blank" rel="noopener">Swagger UI</a>
                 </p>
             </div>
         </div>
     </footer>
 
     <script src="/js/main.js"></script>
+    
+    <!-- Script para scroll suave (mejor accesibilidad) -->
+    <script>
+        // Scroll suave para enlaces internos
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+        
+        // Mejorar accesibilidad del focus
+        document.addEventListener('DOMContentLoaded', function() {
+            // Añadir indicadores de focus para navegación por teclado
+            const focusableElements = 'a, button, [tabindex]:not([tabindex="-1"])';
+            const focusable = document.querySelectorAll(focusableElements);
+            
+            focusable.forEach(element => {
+                element.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        if (this.tagName === 'BUTTON' || this.tagName === 'A') {
+                            this.click();
+                        }
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>
