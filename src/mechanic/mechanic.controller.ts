@@ -181,7 +181,7 @@ export class MechanicController {
     return await this.mechanicService.searchMechanics(searchTerm);
   }
 
-  @Get('employee/:code')
+  @Get(':code')
   @ApiOperation({ summary: 'Buscar mecánico por código de empleado' })
   @ApiParam({
     name: 'code',
@@ -228,7 +228,7 @@ export class MechanicController {
     name: 'code',
     type: String,
     description: 'Código único del empleado mecánico',
-    example: 'MEC001',
+    example: 'MECH001',
   })
   @ApiResponse({
     status: 200,
