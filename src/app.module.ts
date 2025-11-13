@@ -10,19 +10,16 @@ import { ReservateModule } from './reservate/reservate.module';
 import { MechanicModule } from './mechanic/mechanic.module';
 import { ClientVehicleModule } from './client-vehicle/client-vehicle.module';
 import { OrderModule } from './order/order.module';
+import { getDatabaseConfig, validateDatabaseConfig } from './config/database.config';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: '.env',
+    }),
     TypeOrmModule.forRoot({
-      type: 'postgres',
-      host: '127.0.0.1',
-      port: 5432,
-      username: 'postgres',
-      password: '12413087',
-      database: 'MecanixDB',
-      entities: [__dirname + '/**/*.entity{.ts,.js}'],
-      synchronize: true,
+      ...getDatabaseConfig(),
     }),
     ClientModule,
     VehicleModule,
@@ -35,4 +32,12 @@ import { OrderModule } from './order/order.module';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule {
+  constructor() {
+    // Validar configuración de base de datos al iniciar
+    if (!validateDatabaseConfig()) {
+      console.error('❌ Error en configuración de base de datos. Revisa las variables de entorno.');
+      process.exit(1);
+    }
+  }
+}
