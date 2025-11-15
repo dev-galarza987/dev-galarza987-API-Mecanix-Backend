@@ -12,7 +12,7 @@ export class CreateReservateDto {
 
   @ApiProperty({
     description: 'Lista de códigos de servicios a reservar',
-    example: [1, 2, 3],
+    example: [101, 102, 103],
     type: [Number],
   })
   @IsArray({ message: 'La lista de códigos de servicio debe ser un arreglo' })

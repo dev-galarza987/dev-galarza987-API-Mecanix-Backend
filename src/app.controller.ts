@@ -28,10 +28,10 @@ export class AppController {
       },
       endpoints: [
         {
-          name: 'Usuarios',
-          description: 'Gestión completa de usuarios del sistema con autenticación y roles.',
-          path: `/api/${process.env.API_VERSION || 'v1'}/user`,
-          icon: '👥'
+          name: 'Ordenes',
+          description: 'Gestión completa de órdenes de trabajo, desde la creación hasta el seguimiento y cierre.',
+          path: `/api/${process.env.API_VERSION || 'v1'}/order`,
+          icon: '📋'
         },
         {
           name: 'Clientes',

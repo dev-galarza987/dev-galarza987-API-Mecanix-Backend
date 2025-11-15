@@ -61,7 +61,7 @@ export const getDatabaseConfig = (): TypeOrmModuleOptions => {
       database: process.env.DB_LOCAL_DATABASE || 'MecanixDB',
       entities: entities,
       synchronize: true, // ⚠️ Solo para desarrollo
-      logging: true, // Cambiar a true si necesitas debug
+      // logging: true, // Cambiar a true si necesitas debug
     };
     
     console.log(`💻 Conectando a PostgreSQL local:`);

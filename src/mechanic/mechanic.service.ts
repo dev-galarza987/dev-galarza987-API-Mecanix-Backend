@@ -42,25 +42,13 @@ export class MechanicService {
     await this.mechanicRepository.save(mechanic);
   }
 
-  async findAll(page: number = 1, limit: number = 10): Promise<{
-    mechanics: Mechanic[];
-    total: number;
-    page: number;
-    lastPage: number;
-  }> {
-    const [mechanics, total] = await this.mechanicRepository.findAndCount({
+  async findAll(): Promise<Mechanic[]> {
+    const mechanics = await this.mechanicRepository.find({
       relations: ['services', 'reservations', 'orders'],
-      take: limit,
-      skip: (page - 1) * limit,
       order: { createdAt: 'DESC' },
     });
 
-    return {
-      mechanics,
-      total,
-      page,
-      lastPage: Math.ceil(total / limit),
-    };
+    return mechanics;
   }
 
   async findOne(id: number): Promise<Mechanic> {
@@ -218,10 +206,8 @@ export class MechanicService {
   async removeByCode(code: string): Promise<void> {
     const mechanic = await this.findByEmployeeCode(code);
 
-    // Soft delete - marcar como inactivo en lugar de eliminar
-    mechanic.isActive = false;
-    mechanic.status = MechanicStatus.INACTIVE;
-    await this.mechanicRepository.save(mechanic);
+    // Hard delete - eliminar completamente el recurso
+    await this.mechanicRepository.remove(mechanic);
   }
 
   async getWorkSchedule(id: number): Promise<{

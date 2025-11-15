@@ -5,12 +5,14 @@ import { Order } from '../../order/entities/order.entity';
 import { StateReservate } from '../../types/StateReservate';
 import {
   Column,
+  CreateDateColumn,
   Entity,
   JoinTable,
   ManyToMany,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 
 @Entity({ name: 'reservate' })
@@ -30,7 +32,6 @@ export class Reservate {
     name: 'reservation_date',
     type: 'timestamp',
     nullable: false,
-    default: () => 'CURRENT_TIMESTAMP',
   })
   reservationDate: Date;
 
@@ -72,18 +73,15 @@ export class Reservate {
   })
   services: Service[];
 
-  @Column({
+  @CreateDateColumn({
     name: 'created_at',
     type: 'timestamp',
-    default: () => 'CURRENT_TIMESTAMP',
   })
   createdAt: Date;
 
-  @Column({
+  @UpdateDateColumn({
     name: 'updated_at',
     type: 'timestamp',
-    default: () => 'CURRENT_TIMESTAMP',
-    onUpdate: 'CURRENT_TIMESTAMP',
   })
   updatedAt: Date;
 

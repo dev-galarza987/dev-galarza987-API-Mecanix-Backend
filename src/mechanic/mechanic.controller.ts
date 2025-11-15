@@ -57,30 +57,13 @@ export class MechanicController {
   }
 
   @Get()
-  @ApiOperation({ summary: 'Obtener lista de mecánicos con paginación' })
-  @ApiQuery({
-    name: 'page',
-    required: false,
-    type: Number,
-    description: 'Número de página',
-    example: 1,
-  })
-  @ApiQuery({
-    name: 'limit',
-    required: false,
-    type: Number,
-    description: 'Límite de resultados por página',
-    example: 10,
-  })
+  @ApiOperation({ summary: 'Obtener lista de mecánicos' })
   @ApiResponse({
     status: 200,
     description: 'Lista de mecánicos obtenida exitosamente',
   })
-  async findAll(
-    @Query('page') page: number = 1,
-    @Query('limit') limit: number = 10,
-  ) {
-    return await this.mechanicService.findAll(page, limit);
+  async findAll() {
+    return await this.mechanicService.findAll();
   }
 
   @Get('statistics')
