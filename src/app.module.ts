@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ClientModule } from './client/client.module';
 import { VehicleModule } from './vehicle/vehicle.module';
@@ -10,7 +10,7 @@ import { ReservateModule } from './reservate/reservate.module';
 import { MechanicModule } from './mechanic/mechanic.module';
 import { ClientVehicleModule } from './client-vehicle/client-vehicle.module';
 import { OrderModule } from './order/order.module';
-import { getDatabaseConfig, validateDatabaseConfig } from './config/database.config';
+//import { getDatabaseConfig, validateDatabaseConfig } from './config/database.config';
 
 @Module({
   imports: [
@@ -18,8 +18,22 @@ import { getDatabaseConfig, validateDatabaseConfig } from './config/database.con
       isGlobal: true,
       envFilePath: '.env',
     }),
-    TypeOrmModule.forRoot({
-      ...getDatabaseConfig(),
+    TypeOrmModule.forRootAsync({
+      inject: [ConfigService],
+      useFactory: (config: ConfigService) => ({
+        // ...getDatabaseConfig(configService),
+        type: 'postgres',
+        host: config.get<string>('DB_SUPABASE_HOST'),
+        port: parseInt(config.get<string>('DB_SUPABASE_PORT', '5432'), 10),
+        username: config.get<string>('DB_SUPABASE_USERNAME'),
+        password: config.get<string>('DB_SUPABASE_PASSWORD'),
+        database: config.get<string>('DB_SUPABASE_DATABASE'),
+        entities: [__dirname + '/**/*.entity{.ts,.js}'],
+        synchronize: false,
+        ssl: {
+          rejectUnauthorized: false,
+        }
+      }),
     }),
     ClientModule,
     VehicleModule,
@@ -35,9 +49,9 @@ import { getDatabaseConfig, validateDatabaseConfig } from './config/database.con
 export class AppModule {
   constructor() {
     // Validar configuración de base de datos al iniciar
-    if (!validateDatabaseConfig()) {
+    /*if (!validateDatabaseConfig()) {
       console.error('❌ Error en configuración de base de datos. Revisa las variables de entorno.');
       process.exit(1);
-    }
+    }*/
   }
 }

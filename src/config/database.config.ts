@@ -32,7 +32,10 @@ export const getDatabaseConfig = (): TypeOrmModuleOptions => {
       password: process.env.DB_SUPABASE_PASSWORD,
       database: process.env.DB_SUPABASE_DATABASE,
       entities: entities,
-      synchronize: true, // ⚠️ Solo para desarrollo
+      synchronize: false, // ⚠️ DESACTIVADO para usar migraciones
+      migrations: ['dist/migrations/*.js'],
+      migrationsTableName: 'typeorm_migrations',
+      migrationsRun: true, // Ejecutar migraciones automáticamente al iniciar
       ssl: {
         rejectUnauthorized: false, // Necesario para Supabase
       },
@@ -60,7 +63,10 @@ export const getDatabaseConfig = (): TypeOrmModuleOptions => {
       password: process.env.DB_LOCAL_PASSWORD,
       database: process.env.DB_LOCAL_DATABASE || 'MecanixDB',
       entities: entities,
-      synchronize: true, // ⚠️ Solo para desarrollo
+      synchronize: false, // ⚠️ DESACTIVADO para usar migraciones
+      migrations: ['dist/migrations/*.js'],
+      migrationsTableName: 'typeorm_migrations',
+      migrationsRun: true, // Ejecutar migraciones automáticamente al iniciar
       // logging: true, // Cambiar a true si necesitas debug
     };
     

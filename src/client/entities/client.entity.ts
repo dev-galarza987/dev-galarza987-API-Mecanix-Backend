@@ -1,8 +1,8 @@
-import { UserRole } from 'src/types/UserRole';
+import { UserRole } from '../../types/UserRole';
 import { Reservate } from '../../reservate/entities/reservate.entity';
 import { ClientGender } from '../../types/ClientGender';
 import { ContactMethod } from '../../types/ContactMethod';
-import { ClientVehicle } from 'src/client-vehicle/entities/client-vehicle.entity';
+import { ClientVehicle } from '../../client-vehicle/entities/client-vehicle.entity';
 import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
 @Entity({ name: 'client' })
