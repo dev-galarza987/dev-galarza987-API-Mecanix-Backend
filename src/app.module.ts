@@ -11,6 +11,7 @@ import { MechanicModule } from './mechanic/mechanic.module';
 import { ClientVehicleModule } from './client-vehicle/client-vehicle.module';
 import { OrderModule } from './order/order.module';
 //import { getDatabaseConfig, validateDatabaseConfig } from './config/database.config';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -42,6 +43,7 @@ import { OrderModule } from './order/order.module';
     MechanicModule,
     ClientVehicleModule,
     OrderModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
