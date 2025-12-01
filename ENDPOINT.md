@@ -9,8 +9,9 @@
 
 ## Índice
 
-1. [Aplicación General](#aplicación-general)
-2. [Clientes](#clientes)
+1. [Autenticación](#autenticación)
+2. [Aplicación General](#aplicación-general)
+3. [Clientes](#clientes)
 3. [Vehículos](#vehículos)
 4. [Servicios](#servicios)
 5. [Mecánicos](#mecánicos)
@@ -46,8 +47,143 @@
 
 ---
 
-## Clientes
+## Autenticación
 
+### Admin Login
+
+- **Endpoint**: `POST /api/v1/auth/admin/signin`
+- **Descripción**: Iniciar sesión como administrador
+- **Body**:
+```json
+{
+  "email": "admin@mecanix.com",
+  "password": "adminpassword"
+}
+```
+- **Respuestas**:
+  - `201`: Login exitoso
+  ```json
+  {
+    "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+    "user": {
+      "email": "admin@mecanix.com",
+      "role": "admin"
+    }
+  }
+  ```
+  - `401`: Credenciales inválidas
+
+### Cliente Login
+
+- **Endpoint**: `POST /api/v1/auth/client/signin`
+- **Descripción**: Iniciar sesión como cliente
+- **Body**:
+```json
+{
+  "email": "cliente@email.com",
+  "password": "password123"
+}
+```
+- **Respuestas**:
+  - `201`: Login exitoso
+  ```json
+  {
+    "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+    "user": {
+      "id": 1,
+      "email": "cliente@email.com",
+      "name": "Juan",
+      "lastname": "Pérez",
+      "role": "client",
+      ...
+    }
+  }
+  ```
+  - `401`: Credenciales inválidas
+
+### Cliente Registro
+
+- **Endpoint**: `POST /api/v1/auth/client/signup`
+- **Descripción**: Registrar un nuevo cliente
+- **Body**:
+```json
+{
+  "code": 1001,
+  "name": "Juan",
+  "lastname": "Pérez",
+  "phone": "70123456",
+  "ci": 12345678,
+  "gender": "male",
+  "email": "juan@email.com",
+  "password": "Password123!",
+  "address": "Av. Principal 123",
+  "preferredContactMethod": "phone"
+}
+```
+- **Respuestas**:
+  - `201`: Registro exitoso (retorna el cliente creado sin password)
+  - `409`: Cliente ya existe (email duplicado)
+
+### Mecánico Login
+
+- **Endpoint**: `POST /api/v1/auth/mechanic/signin`
+- **Descripción**: Iniciar sesión como mecánico (puede usar email o código de empleado)
+- **Body**:
+```json
+{
+  "email": "mechanic@mecanix.com", // O código de empleado: "MEC001"
+  "password": "password123"
+}
+```
+- **Respuestas**:
+  - `201`: Login exitoso
+  ```json
+  {
+    "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+    "user": {
+      "id": 1,
+      "employeeCode": "MEC001",
+      "email": "mechanic@mecanix.com",
+      "firstName": "Carlos",
+      "lastName": "Gómez",
+      "role": "mechanic",
+      ...
+    }
+  }
+  ```
+  - `401`: Credenciales inválidas
+
+### Mecánico Registro
+
+- **Endpoint**: `POST /api/v1/auth/mechanic/signup`
+- **Descripción**: Registrar un nuevo mecánico
+- **Body**:
+```json
+{
+  "employeeCode": "MEC001",
+  "firstName": "Carlos",
+  "lastName": "Gómez",
+  "phone": "70123456",
+  "email": "mechanic@mecanix.com",
+  "password": "Password123!",
+  "hireDate": "2024-01-15",
+  "yearsExperience": 5,
+  "experienceLevel": "senior",
+  "status": "active",
+  "specialties": ["engine", "transmission"],
+  "hourlyRate": 25.50,
+  "workScheduleStart": "08:00",
+  "workScheduleEnd": "17:00",
+  "workDays": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
+}
+```
+- **Respuestas**:
+  - `201`: Registro exitoso (retorna el mecánico creado sin password)
+  - `409`: Mecánico ya existe (email o código duplicado)
+
+---
+
+## Clientes
 ### Crear Cliente
 
 - **Endpoint**: `POST /api/v1/client/create`

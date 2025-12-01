@@ -47,6 +47,18 @@ export class Mechanic {
   phone: string;
 
   @Column({
+    name: 'email',
+    type: 'varchar',
+    length: 100,
+    nullable: true,
+    unique: true,
+  })
+  email: string;
+
+  @Column({ type: 'varchar', name: 'password', nullable: true, length: 255 })
+  password: string;
+
+  @Column({
     type: 'enum',
     enum: UserRole,
     nullable: false,
@@ -60,7 +72,7 @@ export class Mechanic {
     nullable: false,
     default: () => 'CURRENT_DATE',
   })
-  hireDate: Date; // Fecha de contratación
+  hireDate: Date;
 
   @Column({
     name: 'years_experience',
@@ -97,29 +109,28 @@ export class Mechanic {
     scale: 2,
     nullable: true,
   })
-  hourlyRate: number; // Tarifa por hora en Bs.
+  hourlyRate: number;
 
   @Column({
     name: 'work_schedule_start',
     type: 'time',
     default: '08:00:00',
   })
-  workScheduleStart: string;  // Hora de inicio de la jornada laboral
+  workScheduleStart: string;
 
   @Column({
     name: 'work_schedule_end',
     type: 'time',
     default: '17:00:00',
   })
-  workScheduleEnd: string;  // Hora de finalización de la jornada laboral
-
+  workScheduleEnd: string;
 
   @Column({
     name: 'work_days',
     type: 'simple-array',
     default: 'Monday,Tuesday,Wednesday,Thursday,Friday',
   })
-  workDays: string[]; // Días de trabajo
+  workDays: string[];
 
   @Column({ name: 'is_active', type: 'boolean', default: true })
   isActive: boolean;
@@ -135,7 +146,6 @@ export class Mechanic {
   updatedAt: Date;
 
   // Relaciones
-
   @OneToMany(() => Reservate, (reservate) => reservate.mechanic)
   reservations: Reservate[];
 

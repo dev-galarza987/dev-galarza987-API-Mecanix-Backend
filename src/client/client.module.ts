@@ -10,5 +10,6 @@ import { ClientVehicle } from '../client-vehicle/entities/client-vehicle.entity'
   imports: [TypeOrmModule.forFeature([Client, Reservate, ClientVehicle])],
   controllers: [ClientController],
   providers: [ClientService],
+  exports: [TypeOrmModule],
 })
 export class ClientModule {}

@@ -12,6 +12,7 @@ import {
   Matches,
   Min,
   Max,
+  IsEmail,
 } from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import {
@@ -69,7 +70,24 @@ export class CreateMechanicDto {
   @Matches(/^\+?[1-9]\d{1,14}$/, {
     message: 'Phone number must be a valid international format',
   })
-  phone!: string;
+  phone?: string;
+
+  @ApiPropertyOptional({
+    description: 'Email del mecánico',
+    example: 'mechanic@mecanix.com',
+  })
+  @IsOptional()
+  @IsEmail()
+  @IsString()
+  email!: string;
+
+  @ApiPropertyOptional({
+    description: 'Email del mecánico',
+    example: 'contraseña123#?',
+  })
+  @IsOptional()
+  @IsString()
+  password!: string;
 
   @ApiProperty({
     description: 'Fecha de contratación',
@@ -164,12 +182,12 @@ export class CreateMechanicDto {
   @IsString({ each: true })
   workDays?: string[];
 
-  @ApiPropertyOptional({
-    description: 'ID del usuario asociado',
-    example: 1,
-  })
-  @IsOptional()
-  @IsNumber()
-  @IsPositive()
-  userId?: number;
+  // @ApiPropertyOptional({
+  //   description: 'ID del usuario asociado',
+  //   example: 1,
+  // })
+  // @IsOptional()
+  // @IsNumber()
+  // @IsPositive()
+  // userId?: number;
 }

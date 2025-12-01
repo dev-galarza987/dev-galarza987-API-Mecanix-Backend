@@ -56,4 +56,7 @@ export class AppModule {
       process.exit(1);
     }*/
   }
+  onModuleInit() {
+    console.log('✅ Módulo de aplicación inicializado correctamente.');
+  }
 }
